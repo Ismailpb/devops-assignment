@@ -1,5 +1,5 @@
 aws_region  = "ap-southeast-2"
-ami_id      = "ami-085ce13fd231ab4ae"
+ami_id      = "ami-xxxyyyyy"
 environment = "dev"
 owner       = "devops-interview"
 
