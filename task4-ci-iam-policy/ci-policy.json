@@ -1,0 +1,69 @@
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ECRLogin",
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
+    },
+    {
+      "Sid": "PushToSpecificECRRepository",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:PutImage"
+      ],
+      "Resource": "arn:aws:ecr:ap-southeast-2:000000000000:repository/replace-with-ecr-repository"
+    },
+    {
+      "Sid": "RegisterAndInspectTaskDefinitions",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:RegisterTaskDefinition",
+        "ecs:DescribeTaskDefinition",
+        "ecs:ListTaskDefinitions"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "InspectAndUpdateSpecificECSService",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:DescribeServices",
+        "ecs:UpdateService"
+      ],
+      "Resource": "arn:aws:ecs:ap-southeast-2:000000000000:service/replace-with-ecs-cluster/replace-with-ecs-service"
+    },
+    {
+      "Sid": "PassOnlyRequiredTaskRoles",
+      "Effect": "Allow",
+      "Action": "iam:PassRole",
+      "Resource": [
+        "arn:aws:iam::000000000000:role/ecsTaskExecutionRole",
+        "arn:aws:iam::000000000000:role/applicationTaskRole"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "iam:PassedToService": "ecs-tasks.amazonaws.com"
+        }
+      }
+    },
+    {
+      "Sid": "ReadBuildArtifacts",
+      "Effect": "Allow",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::replace-with-build-artifacts-bucket/*"
+    },
+    {
+      "Sid": "ListBuildArtifactsBucket",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::replace-with-build-artifacts-bucket"
+    }
+  ]
+}
